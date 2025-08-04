@@ -2,25 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+use App\Http\Controllers\TaskController;
 
 Route::get('/', function () {
-    return view('index');
-})->name('home');
+    return view('home');
+})->name('home_page');
 
-Route::get('/portfolio', function () {
-    return view('portfolio_view');
-});
-
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
-Route::middleware(['auth'])->group(function () {
-    Route::redirect('settings', 'settings/profile');
-
-    Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
-    Volt::route('settings/password', 'settings.password')->name('settings.password');
-    Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
-});
-
-require __DIR__.'/auth.php';
+Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+Route::get('/tasks/about', [TaskController::class,'about'])->name('tasks.about');
+Route::get('/tasks/create', [TaskController::class,'create'])->name('tasks.create');
+Route::post('/tasks', [TaskController::class,'store'])->name('tasks.store');
+Route::get('/tasks/{id}', [TaskController::class,'show'])->name('tasks.show');
+Route::get('/tasks/{id}/edit', [TaskController::class,'edit'])->name('tasks.edit');
+Route::post('/tasks/{id}', [TaskController::class,'update'])->name('tasks.update');
+Route::delete('/tasks/{id}', [TaskController::class,'destroy'])->name('tasks.destroy');
