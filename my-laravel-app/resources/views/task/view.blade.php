@@ -149,7 +149,6 @@
   <!-- Form to toggle task completion status -->
   <form method="POST" action="{{ route('tasks.update', $task->id) }}">
     @csrf
-    @method('PUT')
 
     <label class="switch" title="Toggle task status">
       <input
